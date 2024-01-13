@@ -1,42 +1,29 @@
 public class MonthData {
-    static int[] days;
+    public static int[] days;
 
-    MonthData() {
+    public MonthData() {
         days = new int[30];
     }
 
-
-//    void printDaysAndStepsFromMonth() {
-//        for (int i = 0; i < days.length; i++) {
-//            System.out.println(i + " день: " + days[i] + " шагов");
-//        }
-//    }
-
-
-    static int sumStepsFromMonth() {
+    public static int sumStepsFromMonth() {
         int sumSteps = 0;
         for (int i = 0; i < days.length; i++) {
             sumSteps += days[i];
-// подсчёт суммы элементов массива days[]
         }
         return sumSteps;
     }
 
-
-    static int maxSteps(int month) {
+    public static int maxSteps(int month) {
         int maxSteps = 0;
         for (int i = 0; i < StepTracker.monthToData[month - 1].days.length; i++) {
             if (maxSteps < StepTracker.monthToData[month - 1].days[i]) {
                 maxSteps = StepTracker.monthToData[month - 1].days[i];
             }
         }
-// поиск максимального элемента
-
         return maxSteps;
     }
 
-
-    static int bestSeries(int goalByStepsPerDay) {
+    public static int bestSeries(int goalByStepsPerDay) {
         int currentSeries = 0;
         int finalSeries = 0;
         int indexStartBest = 0;
@@ -56,10 +43,10 @@ public class MonthData {
             }
         }
         System.out.println(finalSeries);
-// поиск максимальной серии
         return finalSeries;
     }
-    static double getAverageSteps(int month) {
+
+    public static double getAverageSteps(int month) {
         int stepsCount = 0;
         for (int i = 0; i < StepTracker.monthToData[month - 1].days.length; i++) {
             stepsCount = stepsCount + StepTracker.monthToData[month - 1].days[i];

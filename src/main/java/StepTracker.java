@@ -1,11 +1,12 @@
+import java.lang.reflect.Array;
 import java.util.Scanner;
 
 public class StepTracker {
-    Scanner scanner;
-    static MonthData[] monthToData;
-    int goalByStepsPerDay;
+    private final Scanner scanner;
+    public static MonthData[] monthToData;
+    private int goalByStepsPerDay;
 
-    StepTracker(Scanner scan) {
+    public StepTracker(Scanner scan) {
         scanner = scan;
         monthToData = new MonthData[12];
         for (int i = 0; i < monthToData.length; i++) {
@@ -14,7 +15,7 @@ public class StepTracker {
         goalByStepsPerDay = 10_000;
     }
 
-    void changeStepGoal() {
+    public void changeStepGoal() {
         int stepsPerDay = scanner.nextInt();
         if (stepsPerDay <= 0) {
             System.out.println("Выберите другую цель!");
@@ -23,89 +24,44 @@ public class StepTracker {
         System.out.println("Новая цель : " + goalByStepsPerDay);
     }
 
-    String getMonthName(int month) {
-        String monthName = "";
-        switch (month) {
-            case (1):
-                monthName = "Января";
-                break;
-            case (2):
-                monthName = "Февраля";
-                break;
-            case (3):
-                monthName = "Марта";
-                break;
-            case (4):
-                monthName = "Апреля";
-                break;
-            case (5):
-                monthName = "Мая";
-                break;
-            case (6):
-                monthName = "Июня";
-                break;
-            case (7):
-                monthName = "Июля";
-                break;
-            case (8):
-                monthName = "Августа";
-                break;
-            case (9):
-                monthName = "Сентября";
-                break;
-            case (10):
-                monthName = "Октября";
-                break;
-            case (11):
-                monthName = "Ноябра";
-                break;
-            case (12):
-                monthName = "Декабря";
-                break;
-        }
-        return monthName;
+    private String getMonthName(int month) {
+        String[] numMonth = {"Января", "Февраля", "Марта",
+                "Апреля", "Мая", "Июня",
+                "Июля", "Августа", "Сентября",
+                "Октября", "Ноября", "Декабря"};
+        return Array.get(numMonth, month - 1).toString();
     }
 
-
-    void addNewNumberStepsPerDay() {
-        System.out.println("Введите номер месяца");
+    public void addNewNumberStepsPerDay() {
+        System.out.println("Введите номер месяца от 1 до 12");
         int numMonth = scanner.nextInt();
-        // ввод и проверка номера месяца
-        if (numMonth < 1 && numMonth > 12) {
+        if (numMonth < 1 || numMonth > 12) {
             System.out.println("Ошибка! Введите номер месяца от 1 до 12 (включительно)");
         } else {
             System.out.println("Введите день от 1 до 30");
-            // ввод и проверка дня
             int dayOfMonth = scanner.nextInt();
-            if (dayOfMonth < 1 && dayOfMonth > 30) {
+            if (dayOfMonth < 1 || dayOfMonth > 30) {
                 System.out.println("Ошибка! Введите день от 1 до 30 (включительно)");
             } else {
                 System.out.println("Введите количество шагов");
                 int step = scanner.nextInt();
                 if (step < 0) {
-                    System.out.println("Ошибка! Введите количество дней");
+                    System.out.println("Ошибка! Введите количество шагов > 0");
                 } else {
                     monthToData[numMonth - 1].days[dayOfMonth - 1] = step;
+                    System.out.println("Отлично! Количество шагов за " +
+                            dayOfMonth + " " + getMonthName(numMonth) +
+                            ": " + monthToData[numMonth - 1].days[dayOfMonth - 1]);
 
-                    StringBuilder outSuccessful = new StringBuilder();
-                    outSuccessful.append("Отлично! Количество шагов за ");
-                    outSuccessful.append(dayOfMonth);
-                    outSuccessful.append(" ");
-                    outSuccessful.append(getMonthName(numMonth));
-                    outSuccessful.append(": ");
-                    outSuccessful.append(monthToData[numMonth - 1].days[dayOfMonth - 1]);
-                    System.out.println(outSuccessful);
                 }
             }
         }
     }
 
-
-    void printStatistic() {
+    public void printStatistic() {
         System.out.println("Введите число месяца");
         int numMonth = scanner.nextInt();
         StringBuilder steps = new StringBuilder();
-
         if (numMonth < 0 || numMonth > 12) {
             System.out.println("Ошибка! Введенное значение находится вне диапазона 1 ... 12");
         } else {
@@ -127,15 +83,4 @@ public class StepTracker {
             System.out.println();
         }
     }
-// ввод и проверка номера месяца
-//        monthData = ;// получение соответствующего месяца
-//        int sumSteps = ;// получение суммы шагов за месяц
-// вывод общей статистики по дням
-// вывод суммы шагов за месяц
-// вывод максимального пройденного количества шагов за месяц
-// вывод среднего пройденного количества шагов за месяц
-// вывод пройденной за месяц дистанции в км
-// вывод количества сожжённых килокалорий за месяц
-// вывод лучшей серии
-
 }
