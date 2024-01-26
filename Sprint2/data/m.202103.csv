@@ -1,0 +1,4 @@
+item_name,is_expense,quantity,sum_of_one
+Конфеты,TRUE,700,45
+Шоколадки,TRUE,111,75
+Продажа сладкой ваты,FALSE,140,220
