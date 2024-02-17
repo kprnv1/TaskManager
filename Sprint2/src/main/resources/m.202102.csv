@@ -1,4 +1,4 @@
 item_name,is_expense,quantity,sum_of_one
-Стулья,TRUE,50,7000
-Календари,TRUE,9,100
+Стулья,FALSE,50,7000
+Календари,TRUE,9,1000
 Продажа пирогов,FALSE,1010,85
