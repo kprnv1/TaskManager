@@ -28,7 +28,6 @@ public class ByhApplication {
                 System.out.println("Закончили считывать годовой отчет");
             } else if (line.equals("3")) {
                 System.out.println("Начинаем сверять отчеты");
-//                yearlyReport.revise();
                 inMemoryStorage.rev();
                 System.out.println("Закончили сверять отчеты");
             } else if (line.equals("4")) {

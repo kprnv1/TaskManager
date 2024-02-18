@@ -1,22 +1,46 @@
 package org.example;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class YearlyReport {
+    Scanner scanner = new Scanner(System.in);
     InMemoryStorage inMemoryStorage = new InMemoryStorage();
-    int THIS_YEAR = 2021;
+    Integer THIS_YEAR = 0;
+
+
+//    int THIS_YEAR = 2021;
+//    public void loadYearReports() {
+//        String path = "./src/main/resources/y.2021.csv";
+//        ArrayList<ItemYear> items = loadYearReport(path);
+//        System.out.println(items);
+//        inMemoryStorage.saveYearReport(THIS_YEAR, items);
+//
+//    }
 
     public void loadYearReports() {
-        String path = "./src/main/resources/y.2021.csv";
-        ArrayList<ItemYear> items = loadYearReport(path);
-        System.out.println(items);
-        inMemoryStorage.saveYearReport(THIS_YEAR, items);
-
+        String path = "./src/main/resources/";
+        File dir = new File(path);
+        File[] arrFiles = dir.listFiles();
+        List<File> lst = Arrays.asList(arrFiles);
+        String str = lst.toString();
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(str);
+        while (matcher.find()) {
+            int num = Integer.parseInt(matcher.group());
+            if (num < 2999) {
+                THIS_YEAR = num;
+                String path1 = "./src/main/resources/y." + THIS_YEAR + ".csv";
+                ArrayList<ItemYear> items = loadYearReport(path1);
+                System.out.println(items);
+                inMemoryStorage.saveYearReport(THIS_YEAR, items);
+            } else return;
+        }
     }
 
     ArrayList<ItemYear> loadYearReport(String path) {
@@ -36,6 +60,7 @@ public class YearlyReport {
     public void printYearReportInfo() {
         System.out.println(inMemoryStorage.yearReports);
         System.out.println("Прибыль по каждому месяцу. ");
+        System.out.println(THIS_YEAR);
         inMemoryStorage.getEarningMonthInYear(THIS_YEAR);
 
         Long earningYear = inMemoryStorage.getEarningYear(THIS_YEAR);
@@ -54,9 +79,9 @@ public class YearlyReport {
         }
     }
 
-    public void revise() {             //сверка
+    public void revise() {
         for (int i = 0; i < inMemoryStorage.earningInYear.size(); i++) {
-            System.out.println("Доход: " +  + inMemoryStorage.earningInYear.get(i));
+            System.out.println("Доход: " + +inMemoryStorage.earningInYear.get(i));
         }
         for (int i = 0; i < inMemoryStorage.expenseInYear.size(); i++) {
             System.out.println("Расход: " + inMemoryStorage.expenseInYear.get(i));
@@ -64,12 +89,6 @@ public class YearlyReport {
         for (int i = 0; i < inMemoryStorage.netProfit.size(); i++) {
             System.out.println("Чистая прибыль: " + inMemoryStorage.netProfit.get(i));
         }
-//        for (int i = 0; i < inMemoryStorage.earningInMonths.size(); i++) {
-//            System.out.println("+++" + inMemoryStorage.earningInMonths.get(i));
-//        }
-//        for (int i = 0; i < inMemoryStorage.expenseInMonths.size(); i++) {
-//            System.out.println("---" + inMemoryStorage.expenseInMonths.get(i));
-//        }
 
     }
 }

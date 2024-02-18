@@ -1,9 +1,11 @@
 package org.example;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,10 +13,14 @@ public class MonthlyReport {
     InMemoryStorage inMemoryStorage = new InMemoryStorage();
 
     public void loadMonthReports() {
+        String path = "./src/main/resources/";
+        File dir = new File(path);
+        File[] arrFiles = dir.listFiles();
+        List<File> lst = Arrays.asList(arrFiles);
         int i = 1;
-        for (; i < 4; i++) {
-            String path = "./src/main/resources/m.20210" + i + ".csv";
-            ArrayList<ItemMonth> items = loadMonthReport(path);
+        for (; i < lst.size(); i++) {
+            String path1 = "./src/main/resources/m.20210" + i + ".csv";
+            ArrayList<ItemMonth> items = loadMonthReport(path1);
             System.out.println(items);
             inMemoryStorage.saveMonthReport(i, items);
         }
