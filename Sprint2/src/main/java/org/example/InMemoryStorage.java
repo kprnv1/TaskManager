@@ -5,27 +5,27 @@ import java.util.LinkedHashMap;
 
 public class InMemoryStorage {
 
-    static ArrayList<Long> earningInYear = new ArrayList<>();
-    static ArrayList<Long> earningInMonths = new ArrayList<>();
-    static ArrayList<Long> netProfit = new ArrayList<>();
-    static ArrayList<Long> expenseInYear = new ArrayList<>();
-    static ArrayList<Long> expenseInMonths = new ArrayList<>();
+    protected static final ArrayList<Long> earningInYear = new ArrayList<>();
+    private static final ArrayList<Long> earningInMonths = new ArrayList<>();
+    protected static final ArrayList<Long> netProfit = new ArrayList<>();
+    protected static final ArrayList<Long> expenseInYear = new ArrayList<>();
+    private static final ArrayList<Long> expenseInMonths = new ArrayList<>();
 
-    LinkedHashMap<Integer, ArrayList<ItemMonth>> monthReports = new LinkedHashMap<>();
+    protected final LinkedHashMap<Integer, ArrayList<ItemMonth>> monthReports = new LinkedHashMap<>();
 
-    public void saveMonthReport(int month, ArrayList<ItemMonth> itemMonth) {
+    protected final void saveMonthReport(int month, ArrayList<ItemMonth> itemMonth) {
         monthReports.put(month, itemMonth);
     }
 
-    LinkedHashMap<Integer, ArrayList<ItemYear>> yearReports = new LinkedHashMap<>();
+    protected final LinkedHashMap<Integer, ArrayList<ItemYear>> yearReports = new LinkedHashMap<>();
 
-    public void saveYearReport(int year, ArrayList<ItemYear> itemYear) {
+    protected final void saveYearReport(int year, ArrayList<ItemYear> itemYear) {
         yearReports.put(year, itemYear);
     }
 
-    public Long getEarningYear(int year) {
-        Long count = Long.valueOf(0);
-        Long total = Long.valueOf(0);
+    protected final Long getEarningYear(int year) {
+        long count = 0L;
+        long total = 0L;
         ArrayList<ItemYear> items = yearReports.get(year);
         for (ItemYear item : items) {
             if (!item.expense) {
@@ -38,9 +38,9 @@ public class InMemoryStorage {
         return total / count;
     }
 
-    public Long getExpenseYear(int year) {
-        Long total = Long.valueOf(0);
-        Long count = Long.valueOf(0);
+    protected final Long getExpenseYear(int year) {
+        long total = 0L;
+        long count = 0L;
         ArrayList<ItemYear> items = yearReports.get(year);
         for (ItemYear item : items) {
             if (item.expense) {
@@ -53,10 +53,10 @@ public class InMemoryStorage {
         return total / count;
     }
 
-    public void getEarningMonthInYear(int year) {
+    protected final void getEarningMonthInYear(int year) {
 
-        Long total1 = Long.valueOf(0);
-        Long total2 = Long.valueOf(0);
+        Long total1 = 0L;
+        Long total2 = 0L;
         long totalEnd;
         ArrayList<ItemYear> items = yearReports.get(year);
         for (ItemYear item : items) {
@@ -70,14 +70,14 @@ public class InMemoryStorage {
                 totalEnd = total1 - total2;
                 System.out.println(item.month + " месяц: " + totalEnd);
                 netProfit.add(totalEnd);
-                total1 = Long.valueOf(0);
-                total2 = Long.valueOf(0);
+                total1 = 0L;
+                total2 = 0L;
 
             }
         }
     }
 
-    public ItemMonth getMaxEarning(int month) {
+    protected final ItemMonth getMaxEarning(int month) {
         ArrayList<ItemMonth> items = monthReports.get(month);
         ItemMonth max = null;
         long total = 0;
@@ -93,7 +93,7 @@ public class InMemoryStorage {
         return max;
     }
 
-    public ItemMonth getMaxExpense(int month) {
+    protected final ItemMonth getMaxExpense(int month) {
         ArrayList<ItemMonth> items = monthReports.get(month);
         ItemMonth max = null;
         long total = 0;
@@ -109,7 +109,7 @@ public class InMemoryStorage {
         return max;
     }
 
-    public Long getEarning(int month) {
+    protected final void getEarning(int month) {
         ArrayList<ItemMonth> items = monthReports.get(month);
         long count = 0;
         for (ItemMonth item : items) {
@@ -125,10 +125,9 @@ public class InMemoryStorage {
         for (int i = 0; i < earningInMonths.size(); i++) {
             System.out.println(i + " - " + earningInMonths.get(i));
         }
-        return count;
     }
 
-    public Long getExpense(int month) {
+    protected final void getExpense(int month) {
         ArrayList<ItemMonth> items = monthReports.get(month);
         long count = 0;
         for (ItemMonth item : items) {
@@ -141,10 +140,9 @@ public class InMemoryStorage {
             }
         }
         expenseInMonths.add(count);
-        return count;
     }
 
-    public void rev() {
+    protected final void rev() {
         for (Long item : earningInYear) {
             if (!earningInMonths.contains(item)) {
                 System.out.println("Элемент " + item + " не найден в отчете");

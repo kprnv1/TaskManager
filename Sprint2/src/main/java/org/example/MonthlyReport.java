@@ -10,15 +10,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class MonthlyReport {
-    InMemoryStorage inMemoryStorage = new InMemoryStorage();
+    protected final InMemoryStorage inMemoryStorage = new InMemoryStorage();
+    String PATH = "./src/main/resources/";
 
-    public void loadMonthReports() {
-        String path = "./src/main/resources/";
-        File dir = new File(path);
+    protected final void loadMonthReports() {
+        File dir = new File(PATH);
         File[] arrFiles = dir.listFiles();
-        List<File> lst = Arrays.asList(arrFiles);
+        assert arrFiles != null;
+        List<File> list = Arrays.asList(arrFiles);
         int i = 1;
-        for (; i < lst.size(); i++) {
+        for (; i < list.size(); i++) {
             String path1 = "./src/main/resources/m.20210" + i + ".csv";
             ArrayList<ItemMonth> items = loadMonthReport(path1);
             System.out.println(items);
@@ -26,7 +27,7 @@ public class MonthlyReport {
         }
     }
 
-    ArrayList<ItemMonth> loadMonthReport(String path) {
+    protected final ArrayList<ItemMonth> loadMonthReport(String path) {
         List<String> lines = readFileContents(path);
         ArrayList<ItemMonth> items = new ArrayList<>();
         for (int i = 1; i < lines.size(); i++) {
@@ -45,51 +46,26 @@ public class MonthlyReport {
         return monthsNum(month);
     }
 
-    public String monthsNum(int num) {
-        if (num == 1) {
-            return "Январь";
+    private String monthsNum(int num) {
+        String total = null;
+        String[] month = {"Январь", "Февраль", "Март",
+                "Апрель", "Май", "Июнь",
+                "Июль", "Август", "Сентябрь",
+                "Октябрь", "Ноябрь", "Декабрь"};
+        for (int i = 0; i < month.length; i++) {
+            if (num == i) {
+                total = month[i - 1];
+                break;
+            }
         }
-        if (num == 2) {
-            return "Февраль";
-        }
-        if (num == 3) {
-            return "Март";
-        }
-        if (num == 4) {
-            return "Апрель";
-        }
-        if (num == 5) {
-            return "Май";
-        }
-        if (num == 6) {
-            return "Июнь";
-        }
-        if (num == 7) {
-            return "Июль";
-        }
-        if (num == 8) {
-            return "Август";
-        }
-        if (num == 9) {
-            return "Сентябрь";
-        }
-        if (num == 10) {
-            return "Октябрь";
-        }
-        if (num == 11) {
-            return "Ноябрь";
-        }
-        if (num == 12) {
-            return "Декабрь";
-        } else
-            return "Такого месяца нет";
+        return total;
     }
 
-    public void printMonthReportInfo() {
+    protected void printMonthReportInfo() {
         System.out.println(inMemoryStorage.monthReports);
-        int month;
-        for (int i = 1; i <= inMemoryStorage.monthReports.size(); ) {
-            month = i;
+        int month = 1;
+
+        while (month <= inMemoryStorage.monthReports.size()) {
             System.out.println("Месяц: " + getMonthName(month));
 
             inMemoryStorage.getEarning(month);
@@ -102,12 +78,14 @@ public class MonthlyReport {
             ItemMonth maxExpense = inMemoryStorage.getMaxExpense(month);
             System.out.println("Максимальная трата. Товар: " + maxExpense.name + "." +
                     " Сумма: " + maxExpense.getTotal());
+            month++;
 
-            i++;
+
         }
     }
 
-    List<String> readFileContents(String path) {
+
+    protected final List<String> readFileContents(String path) {
         try {
             return Files.readAllLines(Path.of(path));
         } catch (IOException e) {

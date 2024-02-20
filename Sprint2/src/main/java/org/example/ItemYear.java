@@ -2,17 +2,17 @@ package org.example;
 
 public class ItemYear {
 
-    int month;
-    Long amount;
-    boolean expense;
+    protected final int month;
+    protected final Long amount;
+    protected  final boolean expense;
 
-    public ItemYear(int month, Long amount, boolean expense) {
+    protected ItemYear(int month, Long amount, boolean expense) {
         this.month = month;
         this.amount = amount;
         this.expense = expense;
     }
 
-    public Long getAmountYear() {
+    protected final Long getAmountYear() {
         return amount;
     }
 

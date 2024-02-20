@@ -3,16 +3,13 @@ package org.example;
 import java.util.Scanner;
 
 public class ByhApplication {
-    private Scanner scanner;
-    private MonthlyReport monthlyReport;
-    private YearlyReport yearlyReport;
     InMemoryStorage inMemoryStorage = new InMemoryStorage();
 
-    public void run() {
+    protected void run() {
         System.out.println("Введите команду: ");
-        scanner = new Scanner(System.in);
-        monthlyReport = new MonthlyReport();
-        yearlyReport = new YearlyReport();
+        Scanner scanner = new Scanner(System.in);
+        MonthlyReport monthlyReport = new MonthlyReport();
+        YearlyReport yearlyReport = new YearlyReport();
         while (true) {
             printMenu();
             String line = scanner.nextLine();
@@ -45,7 +42,7 @@ public class ByhApplication {
         }
     }
 
-    public void printMenu() {
+    private void printMenu() {
         System.out.println("Меню: ");
         System.out.println("1 - Считать все месячные отчеты");
         System.out.println("2 - Считать годовой отчет");

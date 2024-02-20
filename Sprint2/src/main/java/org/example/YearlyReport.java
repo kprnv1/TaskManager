@@ -9,24 +9,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class YearlyReport {
-    Scanner scanner = new Scanner(System.in);
-    InMemoryStorage inMemoryStorage = new InMemoryStorage();
-    Integer THIS_YEAR = 0;
+    protected final InMemoryStorage inMemoryStorage = new InMemoryStorage();
+    private Integer thisYear = 0;
+    String PATH = "./src/main/resources/";
 
-
-//    int THIS_YEAR = 2021;
-//    public void loadYearReports() {
-//        String path = "./src/main/resources/y.2021.csv";
-//        ArrayList<ItemYear> items = loadYearReport(path);
-//        System.out.println(items);
-//        inMemoryStorage.saveYearReport(THIS_YEAR, items);
-//
-//    }
-
-    public void loadYearReports() {
-        String path = "./src/main/resources/";
-        File dir = new File(path);
+    protected final void loadYearReports() {
+        File dir = new File(PATH);
         File[] arrFiles = dir.listFiles();
+        assert arrFiles != null;
         List<File> lst = Arrays.asList(arrFiles);
         String str = lst.toString();
         Pattern pattern = Pattern.compile("\\d+");
@@ -34,16 +24,16 @@ public class YearlyReport {
         while (matcher.find()) {
             int num = Integer.parseInt(matcher.group());
             if (num < 2999) {
-                THIS_YEAR = num;
-                String path1 = "./src/main/resources/y." + THIS_YEAR + ".csv";
+                thisYear = num;
+                String path1 = "./src/main/resources/y." + thisYear + ".csv";
                 ArrayList<ItemYear> items = loadYearReport(path1);
                 System.out.println(items);
-                inMemoryStorage.saveYearReport(THIS_YEAR, items);
+                inMemoryStorage.saveYearReport(thisYear, items);
             } else return;
         }
     }
 
-    ArrayList<ItemYear> loadYearReport(String path) {
+    protected final ArrayList<ItemYear> loadYearReport(String path) {
         List<String> lines = readFileContents(path);
         ArrayList<ItemYear> items = new ArrayList<>();
         for (int i = 1; i < lines.size(); i++) {
@@ -57,20 +47,20 @@ public class YearlyReport {
         return items;
     }
 
-    public void printYearReportInfo() {
+    protected final void printYearReportInfo() {
         System.out.println(inMemoryStorage.yearReports);
         System.out.println("Прибыль по каждому месяцу. ");
-        System.out.println(THIS_YEAR);
-        inMemoryStorage.getEarningMonthInYear(THIS_YEAR);
+        System.out.println(thisYear);
+        inMemoryStorage.getEarningMonthInYear(thisYear);
 
-        Long earningYear = inMemoryStorage.getEarningYear(THIS_YEAR);
+        Long earningYear = inMemoryStorage.getEarningYear(thisYear);
         System.out.println("Средний доход за все месяцы в году: " + earningYear);
 
-        Long expenseYear = inMemoryStorage.getExpenseYear(THIS_YEAR);
+        Long expenseYear = inMemoryStorage.getExpenseYear(thisYear);
         System.out.println("Средний расход за все месяцы в году: " + expenseYear);
     }
 
-    List<String> readFileContents(String path) {
+    protected final List<String> readFileContents(String path) {
         try {
             return Files.readAllLines(Path.of(path));
         } catch (IOException e) {
@@ -79,9 +69,9 @@ public class YearlyReport {
         }
     }
 
-    public void revise() {
+    protected final void revise() {
         for (int i = 0; i < inMemoryStorage.earningInYear.size(); i++) {
-            System.out.println("Доход: " + +inMemoryStorage.earningInYear.get(i));
+            System.out.println("Доход: " + inMemoryStorage.earningInYear.get(i));
         }
         for (int i = 0; i < inMemoryStorage.expenseInYear.size(); i++) {
             System.out.println("Расход: " + inMemoryStorage.expenseInYear.get(i));

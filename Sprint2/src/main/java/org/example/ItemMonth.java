@@ -1,18 +1,18 @@
 package org.example;
 
 public class ItemMonth {
-    String name;
-    boolean expense;
-    int quantity;
-    long price;
-    public ItemMonth(String name, boolean expense, int quantity, long price) {
+    protected final String name;
+    protected final boolean expense;
+    protected final int quantity;
+    protected final long price;
+    protected ItemMonth(String name, boolean expense, int quantity, long price) {
         this.name = name;
         this.expense = expense;
         this.quantity = quantity;
         this.price = price;
     }
 
-    long getTotal() {
+    protected long getTotal() {
         return quantity * price;
     }
 
