@@ -47,18 +47,11 @@ public class MonthlyReport {
     }
 
     private String monthsNum(int num) {
-        String total = null;
         String[] month = {"Январь", "Февраль", "Март",
                 "Апрель", "Май", "Июнь",
                 "Июль", "Август", "Сентябрь",
                 "Октябрь", "Ноябрь", "Декабрь"};
-        for (int i = 0; i < month.length; i++) {
-            if (num == i) {
-                total = month[i - 1];
-                break;
-            }
-        }
-        return total;
+        return month[num - 1];
     }
 
     protected void printMonthReportInfo() {
