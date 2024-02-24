@@ -16,10 +16,8 @@ public class MonthlyReport {
     protected final void loadMonthReports() {
         File dir = new File(PATH);
         File[] arrFiles = dir.listFiles();
-        assert arrFiles != null;
         List<File> list = Arrays.asList(arrFiles);
-        int i = 1;
-        for (; i < list.size(); i++) {
+        for (int i =1; i < list.size(); i++) {
             String path1 = "./src/main/resources/m.20210" + i + ".csv";
             ArrayList<ItemMonth> items = loadMonthReport(path1);
             System.out.println(items);

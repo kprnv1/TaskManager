@@ -16,7 +16,6 @@ public class YearlyReport {
     protected final void loadYearReports() {
         File dir = new File(PATH);
         File[] arrFiles = dir.listFiles();
-        assert arrFiles != null;
         List<File> lst = Arrays.asList(arrFiles);
         String str = lst.toString();
         Pattern pattern = Pattern.compile("\\d+");
