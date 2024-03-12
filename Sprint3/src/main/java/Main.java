@@ -1,7 +1,6 @@
 import model.Task;
 import service.TaskManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,9 +8,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         TaskManager taskManager = new TaskManager();
-        Task task = new Task();
-        List<Task> taskFromManager = new ArrayList<>();
-        Task taskFromManager1 = new Task();
+        Task task;
+        List<Task> taskFromManager;
 
         while (true) {
             printMenu();
@@ -33,46 +31,43 @@ public class Main {
                 taskManager.deleteAll();
                 System.out.println("All tasks deleted");
                 System.out.println("Закончили удалять все задачи");
-
-
             } else if (line.equals("4")) {
                 System.out.println("Начинаем получать по идентификатору");
-                if(sc.nextLine().equals(String.valueOf(task.getId()))) {
-                    System.out.println("равны");
-                    taskFromManager1 = taskManager.get(task.getId());
-                    System.out.println("Get task: " + taskFromManager1);
-                }
+                taskFromManager = taskManager.getAll();
+                System.out.println("Get task: " + taskFromManager);
+                System.out.println("Всего задач: " + taskFromManager.size());
+                System.out.println("Какую из задач вы хотели бы получить? Введите №:");
+                task = taskManager.get(Integer.parseInt(sc.nextLine()));
+                System.out.println(task);
                 System.out.println("Закончили получать по идентификатору");
             } else if (line.equals("5")) {
                 System.out.println("Начинаем удалять по идентификатору");
-//                taskManager.delete(taskFromManager.getId());
-//                System.out.println("Delete: " + task);
+                taskFromManager = taskManager.getAll();
+                System.out.println("Get task: " + taskFromManager);
+                System.out.println("Всего задач: " + taskFromManager.size());
+                System.out.println("Какую из задач вы хотели бы удалить? Введите №:");
+                task = taskManager.delete(Integer.parseInt(sc.nextLine()));
+                System.out.println("Задача удалена и = " + task);
                 System.out.println("Закончили удалять по идентификатору");
             } else if (line.equals("6")) {
                 System.out.println("Начинаем обновлять");
-//                taskFromManager.setName("New name");
-//                taskManager.update(taskFromManager);
-                System.out.println("Update task: " + taskFromManager);
+                taskFromManager = taskManager.getAll();
+                System.out.println("Get task: " + taskFromManager);
+                System.out.println("Какую из задач вы хотели бы обновить? Введите №:");
+                int line1 = Integer.parseInt(sc.nextLine());
+                System.out.println("Введите новую задачу");
+                taskManager.update(line1, new Task(sc.nextLine()));
+                System.out.println("Задача обновлена. = " + taskManager.getAll());
                 System.out.println("Закончили обновлять");
+            } else if (line.equals("7")) {
+                System.out.println("Начинаем получать список всех подзадач");
+
+                System.out.println("Заканчиваем получать список всех подзадач");
             } else {
                 System.out.println("Неизвестная команда");
                 break;
             }
         }
-
-//            String input = sc.nextLine();
-//            Task task = taskManager.create(new Task(input));
-//            System.out.println("Create task: " + task);
-//
-//            Task taskFromManager = taskManager.get(task.getId());
-//            System.out.println("Get task: " + taskFromManager);
-//
-//            taskFromManager.setName("New name");
-//            taskManager.update(taskFromManager);
-//            System.out.println("Update task: " + taskFromManager);
-//
-//            taskManager.delete(taskFromManager.getId());
-//            System.out.println("Delete: " + task);
 
     }
 

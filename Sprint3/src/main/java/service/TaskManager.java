@@ -7,14 +7,16 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 public class TaskManager {
-    Scanner sc = new Scanner(System.in);
     HashMap<Integer, Task> tasks;
     HashMap<Integer, Epic> epics;
     HashMap<Integer, SubTask> subTasks;
     int seq = 0;
+
+    final String NEW = "NEW";
+    final String DONE = "DONE";
+    final String IN_PROGRESS = "IN_PROGRESS";
 
     public TaskManager() {
         this.tasks = new HashMap<>();
@@ -25,6 +27,7 @@ public class TaskManager {
     }
 
     public Task create(Task task) {
+        task.setStatus(NEW);
         task.setId(generateId());
         tasks.put(task.getId(), task);
         return task;
@@ -34,8 +37,14 @@ public class TaskManager {
         return tasks.get(id);
     }
 
-    public void update(Task task) {
-        tasks.put(task.getId(), task);
+    //    public Task update(Task task) {                       // Обновить
+//        tasks.put(task.getId(), task);
+//        return task;
+//    }
+    public void update(int id, Task task) {
+        task.setStatus(NEW);
+        task.setId(id);
+        tasks.put(id, task);
     }
 
 //    public void updateSubTask(SubTask subTask) {
@@ -54,8 +63,9 @@ public class TaskManager {
         tasks.clear();
     }
 
-    public void delete(int id) {
+    public Task delete(int id) {
         tasks.remove(id);
+        return null;
     }
 
     public void updateEpic(Epic epic) {
