@@ -1,18 +1,27 @@
 package model;
 
-public class SubTask extends Task{
+public class SubTask extends Task {
     Epic epic;
+
+    public SubTask(String name) {
+        this.setName(name);
+    }
 
     public Epic getEpic() {
         return epic;
     }
 
-    public void setEpic(Epic epic) {
-        this.epic = epic;
+    @Override
+    public String toString() {
+        return "SubTask{" +
+                "id=" + getId() + " ," +
+                "name=" + getName() + " ," +
+                "status=" + getStatus() +
+                '}';
     }
 
-//    @Override                            //переопределить метод
-//    public String getStatus() {
-//        return super.getStatus();
-//    }
+    public String getStatus() {
+        return super.getStatus();
+    }
+
 }
