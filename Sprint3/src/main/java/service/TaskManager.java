@@ -149,10 +149,6 @@ public class TaskManager {
         } else System.out.println("Ничего не меняем");
 
     }
-
-//    protected void calculateEpicStatus() { //если epic = new ,а subTask = new и subTask = IN_PROGRESS, то epic = IN_PROGRESS
-//
-//    }
 }
 
 

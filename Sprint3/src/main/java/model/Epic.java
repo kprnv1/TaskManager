@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
-    List<SubTask> subTasks = new ArrayList<>();          // у epic`a - subTasks это List
+    protected List<SubTask> subTasks = new ArrayList<>();          // у epic`a - subTasks это List
 
     public void addSubtaskInEpic(SubTask subTask) {
         subTasks.add(subTask);

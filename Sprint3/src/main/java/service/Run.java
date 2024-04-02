@@ -7,11 +7,11 @@ import model.Task;
 import java.util.Scanner;
 
 public class Run {
-    Scanner sc = new Scanner(System.in);
-    TaskManager taskManager = new TaskManager();
+    protected Scanner sc = new Scanner(System.in);
+    protected TaskManager taskManager = new TaskManager();
 
-    Epic epic;
-    SubTask subTask;
+    protected Epic epic;
+    protected SubTask subTask;
 
 
     public void start() {
@@ -107,12 +107,6 @@ public class Run {
                     }
                 } else System.out.println("Нет такой задачи.");
                 System.out.println("Закончили обновлять задачу по id");
-
-
-
-
-
-
             } else if (line.equals("9")) {  // не меняет в epic`e
                 taskManager.getAll();
                 System.out.println("Начинаем обновлять subTask по id");
@@ -122,7 +116,6 @@ public class Run {
                 String name = sc.nextLine();
                 taskManager.updateSubTask(Integer.parseInt(num), new SubTask(name));
                 System.out.println("Закончили обновлять subTask по id");
-
             } else if (line.equals("10")) {
                 System.out.println("Начинаем менять статус подзадачи");
                 System.out.println("Какую задачу поменять?");
@@ -135,7 +128,7 @@ public class Run {
         }
     }
 
-    public static void printMenu() {
+    protected static void printMenu() {
         System.out.println("""
                 Выберите действие:
                 1 - Создать задачу.
