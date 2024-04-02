@@ -4,26 +4,20 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 import static service.Status.*;
 
 public class TaskManager {
-    Scanner sc = new Scanner(System.in);
-    HashMap<Integer, Task> tasks;
-    HashMap<Integer, Epic> epics;
-    HashMap<Integer, SubTask> subTasks;
+    protected Scanner sc = new Scanner(System.in);
+    protected HashMap<Integer, Task> tasks;
+    protected HashMap<Integer, Epic> epics;
+    protected HashMap<Integer, SubTask> subTasks;
 
-    Task task = null;
-    Epic epic;
-    SubTask subTask = null;
+    private int seq = 0;
+    private int num = 0;
 
-
-    int seq = 0;
-    int num = 0;
-
-    public TaskManager() {
+    protected TaskManager() {
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subTasks = new HashMap<>();
@@ -37,210 +31,130 @@ public class TaskManager {
         return ++num;
     }
 
-    public Task create(Task task) {
-        task.setStatus(String.valueOf(NEW));
+    protected void getAll() {
+        System.out.println(tasks);
+        System.out.println(epics);
+        System.out.println(subTasks);
+    }
+
+    protected void getId(int id) {
+        System.out.println(tasks.get(id));
+        tasks.get(id);
+        System.out.println(epics.get(id));
+        epics.get(id);
+    }
+
+    protected void getIdSubTask(int id) {
+        System.out.println(subTasks.get(id));
+        subTasks.get(id);
+    }
+
+    protected void create(Task task) {
         task.setId(generateId());
+        task.setStatus(Status.NEW);
         tasks.put(task.getId(), task);
-        return task;
     }
 
-    public void createTaskAndEpic() {
-        System.out.println("Какую задачу вы бы хотели создать?");
-        System.out.println("1 - Task");
-        System.out.println("2 - Epic");
-        System.out.println("Enter a number:");
-
-        String line = sc.nextLine();
-        if (line.equals("1")) {
-            System.out.println("Вы создаете простую задачу - Task.");
-            task = create(new Task(sc.nextLine()));
-            System.out.println(task);
-        }
-        if (line.equals("2")) {
-            System.out.println("Вы создаете задачу - Epic.");
-            epic = createEpic(new Epic(sc.nextLine()));
-            System.out.println(epic);
-            System.out.println("Задача Epic создана.");
-            calculateEpicStatus();                         //подсчитываем статусы
-            while (true) {
-                System.out.println("Хотели бы вы создать подзадачу?");
-                System.out.println("1 - Да, 2 - Нет");
-                int num = Integer.parseInt(sc.nextLine());
-                if (num == 1) {
-                    System.out.println("Создаем подзадачу.");
-                    subTask = createSubTask(new SubTask(sc.nextLine()));
-                    epic.addSubtaskInEpic(subTask);
-                    System.out.println("Подзадача создана.");
-                    setStatus(String.valueOf(1));               //устанавливаем статусы
-                    System.out.println(subTask);
-                } else break;
-            }
-        }
-    }
-
-    public void getId() {
-        System.out.println("Какую задачу вы хотели бы получить?");
-        getAll();
-        System.out.println("Введите номер:");
-        int line = sc.nextInt();
-        if (tasks.get(line) != null)
-            System.out.println("Task get №" + line + ": " + tasks.get(line));
-        else if (epics.get(line) != null) {
-            System.out.println("Epic get №" + line + ": " + epics.get(line));
-        } else System.out.println("Под таким номером задачи нет!");
-
-    }
-
-    public void update(int id, Task task) {   //     Обновить
-        task.setStatus(String.valueOf(NEW));
-        System.out.println("Обновляем Task");
-        task.setId(id);
-        tasks.put(id, task);
-
-    }
-
-    public void updateTaskAndEpic() {
-        System.out.println("Какую задачу вы бы хотели обновить?");
-        getAll();
-        System.out.println("Enter a number:");
-        int line = Integer.parseInt(sc.nextLine());
-        System.out.println("Вы решили обновить " + line + " задачу");
-        if (task != null && line == task.getId()) {
-            System.out.println("Обновляем Task");
-            task.setName(sc.nextLine());
-            update(line, task);
-            getAll();
-        } else if (line == epic.getId()) {
-            System.out.println("Обновить.");
-            System.out.println("1 - задачу.");
-            System.out.println("2 - подзадачу.");
-            System.out.println("Введите цифру.");
-            int nums = Integer.parseInt(sc.nextLine());
-            if (nums == 1) {
-                System.out.println("Обновляем Epic");
-                epic.setName(sc.nextLine());
-                updateEpic(line, epic);
-                calculateEpicStatus();
-                getAll();
-            } else if (nums == 2) {
-                System.out.println("Хотели бы вы обновить подзадачу этого Epic`a?");
-                System.out.println("1 - Да, 2 - Нет");
-                int num = Integer.parseInt(sc.nextLine());
-                if (num == 1) {
-                    System.out.println("Какую подзадачу вы хотели бы изменить?");
-                    System.out.println("Всего: " + subTasks.size() + " задачи");
-                    System.out.println("Номер:");
-                    int number = Integer.parseInt(sc.nextLine());
-                    if (number <= subTasks.size()) {
-                        subTask = subTasks.get(number);
-                        System.out.println("Меняем:");
-                        subTask.setName(sc.nextLine());
-                        System.out.println("Устанавливаем статус");
-                        setStatus();
-                        System.out.println("Подзадача обновлена.");
-
-                    } else System.out.println("Нет такой подзадачи.");
-                }
-            }
-        }
-    }
-
-    public void getAll() {
-        System.out.println("Get Task: " + tasks.values());
-        System.out.println("Get Epic: " + epics.values());
-    }
-
-    public void deleteAll() {
-        tasks.clear();
-        epics.clear();
-        subTasks.clear();
-        System.out.println("All tasks deleted");
-    }
-
-    public void deleteId() {
-        System.out.println("Какую задачу вы хотели бы удалить?");
-        System.out.println("Введите номер:");
-        int line = sc.nextInt();
-        tasks.remove(line);
-        epics.remove(line);
-        System.out.println("Task №: " + line + " deleted");
-
-    }
-
-    public Epic createEpic(Epic epic) { //       Создать Epic
+    protected Epic createEpic(Epic epic) {
         epic.setId(generateId());
+        epic.setStatus(Status.NEW);
         epics.put(epic.getId(), epic);
         return epic;
     }
 
-    public Epic getEpic(int id) {
-        return epics.get(id);
-    }
-
-    public void updateEpic(int id, Epic epic) {
-        epic.setId(id);
-        epics.put(id, epic);
-    }
-
-    public SubTask createSubTask(SubTask subTask) { //    Создать subTask
+    protected SubTask createSubTask(SubTask subTask) {
         subTask.setId(generatedIdInSubTask());
+        subTask.setStatus(Status.NEW);
         subTasks.put(subTask.getId(), subTask);
         return subTask;
     }
 
-    public void deleteSubTask() {
+    protected void update(int id, Task task) {
+        task.setId(id);
+        task.setStatus(Status.NEW);
+        tasks.put(id, task);
+    }
+
+    protected Epic updateEpic(int id, Epic epic) {
+        deleteEpicById(id);
+        epic.setId(id);
+        epics.put(epic.getId(), epic);
+        return epic;
+    }
+
+    protected void updateSubTask(int id, SubTask subTask) { //при обновлении так же не обновляются в epic`e
+        subTask.setId(id);
+        subTasks.put(id, subTask);
+        addStatus();
+    }
+
+    protected void deleteAll() {
+        tasks.clear();
+        epics.clear();
+        subTasks.clear();
+    }
+
+    protected void deleteEpicById(int id) {
+        for (SubTask subTask : epics.get(id).getSubTasks()) { //  1 эпик
+            subTasks.remove(subTask.getId());
+            epics.remove(id);
+        }
+    }
+
+    protected void deleteId(int id) {
+        tasks.remove(id);
+        deleteEpicById(id);
+    }
+
+    protected void deleteIdSubTask(int id) {
+        for (Epic epic : epics.values()) {
+            epic.getSubTasks().remove(id - 1);
+            subTasks.remove(id);
+        }
+    }
+
+    protected void addStatus() {
+        System.out.println("В какой subTask меняем стутус? Введите номер subTask:");
         getAll();
-        System.out.println("Выберите Epic в котором нужно будет удалить subTask?");
-        int id = Integer.parseInt(sc.nextLine());
-        if (task.getId() == id) {
-            System.out.println("Тут нет подзадач, это простая задача!");
-        } else {
-            System.out.println("Введите номер подзадачи, которую хотели бы удалить.");
-            int num = Integer.parseInt(sc.nextLine());
-            getEpic(id).getSubTasks().remove(subTasks.get(num));
-            getAll();
-        }
+        int number = sc.nextInt();
+        System.out.println("В задаче номер: " + number);
+        System.out.println("1 - меняем на IN_PROGRESS");
+        System.out.println("2 - меняем на DONE");
+        System.out.println("3 - ничего не меняем");
+        int num = sc.nextInt();
+        if (num == 1) {
+            if (tasks.containsKey(number)) {
+                tasks.get(number).setStatus(IN_PROGRESS);
+            } else if (epics.containsKey(number)) {
+                System.out.println("Статус epic`a поменять невозможно.");
+            }
+            if (subTasks.containsKey(number)) {
+                subTasks.get(number).setStatus(IN_PROGRESS);
+                for (Epic epic : epics.values()) {
+                    epic.setStatus(IN_PROGRESS);
+                }
+            } else System.out.println("Ничего не меняем");
+        } else if (num == 2) {
+            if (tasks.containsKey(number)) {
+                tasks.get(number).setStatus(DONE);
+            } else if (epics.containsKey(number)) {
+                System.out.println("Статус epic`a поменять невозможно.");
+            }
+            if (subTasks.containsKey(number)) {
+                subTasks.get(number).setStatus(DONE);
+                for (Epic epic : epics.values()) {
+                    epic.setStatus(DONE);
+                }
+            } else System.out.println("");
+        } else System.out.println("Ничего не меняем");
+
     }
 
-    public void setStatus(String num) {
-        if (num.equals(String.valueOf(1))) {
-            subTask.setStatus(String.valueOf(NEW));
-        } else if (num.equals(String.valueOf(2))) {
-            subTask.setStatus(String.valueOf(IN_PROGRESS));
-        } else if (num.equals(String.valueOf(3))) {
-            subTask.setStatus(String.valueOf(DONE));
-        } else System.out.println("Нет такого статуса");
-
-    }
-    public void setStatus() {
-        if (subTask.getStatus() == null) {
-            setStatus(String.valueOf(1));
-            getAll();
-            System.out.println("Автоматически установлен статус NEW");
-        } else if (!subTask.getStatus().isEmpty()) {
-            System.out.println("Какой статус установить?");
-            System.out.println(subTasks.values());
-            System.out.println("В задаче номер:");
-            String num = sc.nextLine();
-            System.out.println("1 - оставляем статус NEW");
-            System.out.println("2 - меняем на IN_PROGRESS");
-            System.out.println("3 - меняем на DONE");
-            System.out.println("В подзадаче номер: " + num);
-            subTask = subTasks.get(Integer.parseInt(num));
-            setStatus(sc.nextLine());
-            System.out.println(subTasks);
-        }
-    }
-
-
-    public void calculateEpicStatus() { //если epic = new ,а subTask = new и subTask = IN_PROGRESS, то epic = IN_PROGRESS
-        if (epic.getStatus() == null) {
-            epic.setStatus(String.valueOf(NEW));
-//        } else if () {
-            epic.setStatus(String.valueOf(IN_PROGRESS));
-        }
-    }
+//    protected void calculateEpicStatus() { //если epic = new ,а subTask = new и subTask = IN_PROGRESS, то epic = IN_PROGRESS
+//
+//    }
 }
+
 
 
 

@@ -1,14 +1,12 @@
 package model;
 
+import service.Status;
+
 public class SubTask extends Task {
-    Epic epic;
+    private Epic epic;
 
     public SubTask(String name) {
         this.setName(name);
-    }
-
-    public Epic getEpic() {
-        return epic;
     }
 
     @Override
@@ -20,7 +18,7 @@ public class SubTask extends Task {
                 '}';
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return super.getStatus();
     }
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
-    List<SubTask> subTasks = new ArrayList<>();
+    List<SubTask> subTasks = new ArrayList<>();          // у epic`a - subTasks это List
 
     public void addSubtaskInEpic(SubTask subTask) {
         subTasks.add(subTask);
@@ -17,6 +17,7 @@ public class Epic extends Task {
     public Epic(String name) {
         this.setName(name);
     }
+
 
     @Override
     public String toString() {

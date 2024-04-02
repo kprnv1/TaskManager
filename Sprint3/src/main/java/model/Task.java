@@ -3,6 +3,7 @@ package model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import service.Status;
 
 @Getter
 @Setter
@@ -11,7 +12,7 @@ public class Task {
 
     private int id;
     private String name;
-    private String status;
+    private Status status;
     private String description;
 
     public Task(String name) {
@@ -20,5 +21,12 @@ public class Task {
 
     public Task() {
     }
-
+    public String toString() {
+        return "Task{" +
+                "id=" + getId() + ", " +
+                "name=" + getName() + ", " +
+                "status=" + getStatus() + ", " +
+                "description=" + getDescription() + ", " +
+                '}';
+    }
 }
