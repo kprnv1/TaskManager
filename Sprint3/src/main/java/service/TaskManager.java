@@ -73,6 +73,9 @@ public class TaskManager {
         task.setId(id);
         task.setStatus(Status.NEW);
         tasks.put(id, task);
+        for (Epic epic : epics.values()) {
+            epic.getSubTasks().remove(id - 1);
+        }
     }
 
     protected Epic updateEpic(int id, Epic epic) {
@@ -82,10 +85,12 @@ public class TaskManager {
         return epic;
     }
 
-    protected void updateSubTask(int id, SubTask subTask) { //при обновлении так же не обновляются в epic`e
+    protected void updateSubTask(int id, SubTask subTask) {
         subTask.setId(id);
         subTasks.put(id, subTask);
-        addStatus();
+        addStatusInProgress(id);
+        addStatusDone(id);
+
     }
 
     protected void deleteAll() {
@@ -95,7 +100,7 @@ public class TaskManager {
     }
 
     protected void deleteEpicById(int id) {
-        for (SubTask subTask : epics.get(id).getSubTasks()) { //  1 эпик
+        for (SubTask subTask : epics.get(id).getSubTasks()) {
             subTasks.remove(subTask.getId());
             epics.remove(id);
         }
@@ -110,45 +115,54 @@ public class TaskManager {
         for (Epic epic : epics.values()) {
             epic.getSubTasks().remove(id - 1);
             subTasks.remove(id);
+            calculateStatus(epic.getId());
         }
     }
 
-    protected void addStatus() {
-        System.out.println("В какой subTask меняем стутус? Введите номер subTask:");
-        getAll();
-        int number = sc.nextInt();
-        System.out.println("В задаче номер: " + number);
-        System.out.println("1 - меняем на IN_PROGRESS");
-        System.out.println("2 - меняем на DONE");
-        System.out.println("3 - ничего не меняем");
-        int num = sc.nextInt();
-        if (num == 1) {
-            if (tasks.containsKey(number)) {
-                tasks.get(number).setStatus(IN_PROGRESS);
-            } else if (epics.containsKey(number)) {
-                System.out.println("Статус epic`a поменять невозможно.");
-            }
-            if (subTasks.containsKey(number)) {
-                subTasks.get(number).setStatus(IN_PROGRESS);
-                for (Epic epic : epics.values()) {
-                    epic.setStatus(IN_PROGRESS);
+    protected void calculateStatus(int id) {
+        boolean getDone = false;
+        boolean getInProgress = false;
+        if (epics.get(id).getSubTasks().size() == 0) {
+            epics.get(id).setStatus(Status.NEW);
+        } else if (epics.get(id).getSubTasks().size() > 0) {
+            for (SubTask subTask : subTasks.values()) {
+                if (subTask.getStatus().equals(IN_PROGRESS)) {
+                    getInProgress = true;
+                } else if (subTask.getStatus().equals(DONE)) {
+                    getDone = true;
                 }
-            } else System.out.println("Ничего не меняем");
-        } else if (num == 2) {
-            if (tasks.containsKey(number)) {
-                tasks.get(number).setStatus(DONE);
-            } else if (epics.containsKey(number)) {
-                System.out.println("Статус epic`a поменять невозможно.");
+                if (!getInProgress && getDone) {
+                    epics.get(id).setStatus(DONE);
+                } else if (getInProgress && !getDone) {
+                    epics.get(id).setStatus(IN_PROGRESS);
+                } else
+                    epics.get(id).setStatus(IN_PROGRESS);
             }
-            if (subTasks.containsKey(number)) {
-                subTasks.get(number).setStatus(DONE);
-                for (Epic epic : epics.values()) {
-                    epic.setStatus(DONE);
-                }
-            } else System.out.println("");
-        } else System.out.println("Ничего не меняем");
-
+        }
     }
+
+    protected void addStatus(String numberTask, String numStatus) {
+        if (numStatus.equals("1")) {
+            addStatusInProgress(Integer.parseInt(numberTask));
+        } else if (numStatus.equals("2")) {
+            addStatusDone(Integer.parseInt(numberTask));
+        }
+    }
+
+    protected void addStatusInProgress(int id) {
+        for (Epic epic : epics.values()) {
+            subTasks.get(id).setStatus(IN_PROGRESS);
+            calculateStatus(epic.getId());
+        }
+    }
+
+    protected void addStatusDone(int id) {
+        for (Epic epic : epics.values()) {
+            subTasks.get(id).setStatus(DONE);
+            calculateStatus(epic.getId());
+        }
+    }
+
 }
 
 

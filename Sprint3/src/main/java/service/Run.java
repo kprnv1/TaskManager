@@ -118,8 +118,15 @@ public class Run {
                 System.out.println("Закончили обновлять subTask по id");
             } else if (line.equals("10")) {
                 System.out.println("Начинаем менять статус подзадачи");
-                System.out.println("Какую задачу поменять?");
-                taskManager.addStatus();
+                System.out.println("В какой subTask меняем статус? Введите номер subTask:");
+                taskManager.getAll();
+                String numberTask = sc.nextLine();
+                System.out.println("В задаче номер: " + numberTask);
+                System.out.println("1 - меняем на IN_PROGRESS");
+                System.out.println("2 - меняем на DONE");
+                System.out.println("3 - ничего не меняем");
+                String numStatus = sc.nextLine();
+                taskManager.addStatus(numberTask, numStatus);
                 System.out.println("Закончили менять статус подзадачи");
             } else {
                 System.out.println("Неизвестная команда");
