@@ -1,10 +1,13 @@
 package model;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Epic extends Task {
-    protected List<SubTask> subTasks = new ArrayList<>();          // у epic`a - subTasks это List
+    protected List<SubTask> subTasks = new ArrayList<>();
 
     public void addSubtaskInEpic(SubTask subTask) {
         subTasks.add(subTask);
@@ -17,7 +20,6 @@ public class Epic extends Task {
     public Epic(String name) {
         this.setName(name);
     }
-
 
     @Override
     public String toString() {

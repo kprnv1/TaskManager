@@ -9,7 +9,6 @@ import java.util.*;
 import static service.Status.*;
 
 public class TaskManager {
-    protected Scanner sc = new Scanner(System.in);
     protected HashMap<Integer, Task> tasks;
     protected HashMap<Integer, Epic> epics;
     protected HashMap<Integer, SubTask> subTasks;
@@ -62,10 +61,11 @@ public class TaskManager {
         return epic;
     }
 
-    protected SubTask createSubTask(SubTask subTask) {
+    protected SubTask createSubTask(int idEpic, SubTask subTask) {
         subTask.setId(generatedIdInSubTask());
         subTask.setStatus(Status.NEW);
         subTasks.put(subTask.getId(), subTask);
+        subTask.setEpic(epics.get(idEpic));
         return subTask;
     }
 
@@ -73,9 +73,6 @@ public class TaskManager {
         task.setId(id);
         task.setStatus(Status.NEW);
         tasks.put(id, task);
-        for (Epic epic : epics.values()) {
-            epic.getSubTasks().remove(id - 1);
-        }
     }
 
     protected Epic updateEpic(int id, Epic epic) {
@@ -85,18 +82,20 @@ public class TaskManager {
         return epic;
     }
 
-    protected void updateSubTask(int id, SubTask subTask) {
+    protected SubTask updateSubTask(int id, SubTask subTask) {
         subTask.setId(id);
         subTasks.put(id, subTask);
         addStatusInProgress(id);
         addStatusDone(id);
-
+        return subTask;
     }
 
     protected void deleteAll() {
         tasks.clear();
         epics.clear();
         subTasks.clear();
+        seq = 0;
+        num = 0;
     }
 
     protected void deleteEpicById(int id) {
@@ -112,12 +111,14 @@ public class TaskManager {
     }
 
     protected void deleteIdSubTask(int id) {
-        for (Epic epic : epics.values()) {
-            epic.getSubTasks().remove(id - 1);
-            subTasks.remove(id);
-            calculateStatus(epic.getId());
-        }
+        SubTask subTask = subTasks.get(id);
+        Epic epic = subTask.getEpic();
+        System.out.println("какого хуя тут сохраняет" + epic);
+        epic.getSubTasks().remove(subTask);
+        subTasks.remove(id);
+        calculateStatus(epic.getId());
     }
+
 
     protected void calculateStatus(int id) {
         boolean getDone = false;

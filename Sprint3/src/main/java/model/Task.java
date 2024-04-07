@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 import service.Status;
 
-@Getter
 @Setter
+@Getter
 @ToString
 public class Task {
 
@@ -20,13 +20,5 @@ public class Task {
     }
 
     public Task() {
-    }
-    public String toString() {
-        return "Task{" +
-                "id=" + getId() + ", " +
-                "name=" + getName() + ", " +
-                "status=" + getStatus() + ", " +
-                "description=" + getDescription() + ", " +
-                '}';
     }
 }

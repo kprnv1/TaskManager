@@ -26,18 +26,16 @@ public class Run {
                 System.out.println("2-Epic");
                 String num = sc.nextLine();
                 if (num.equals("1")) {
-                    String task = sc.nextLine();
-                    taskManager.create(new Task(task));
+                    taskManager.create(new Task("Простая задача"));
                 } else if (num.equals("2")) {
-                    String task = sc.nextLine();
-                    epic = taskManager.createEpic(new Epic(task));
+                    epic = taskManager.createEpic(new Epic("Сложный эпик"));
                     while (true) {
                         System.out.println("Создать subTask?");
                         System.out.println("1-Yes");
                         System.out.println("2-No");
                         String numSub = sc.nextLine();
                         if (numSub.equals("1")) {
-                            subTask = taskManager.createSubTask(new SubTask(sc.nextLine()));
+                            subTask = taskManager.createSubTask(epic.getId(),new SubTask(sc.nextLine()));
                             epic.addSubtaskInEpic(subTask);
                             taskManager.getAll();
                         } else if (numSub.equals("2")) {
@@ -77,6 +75,7 @@ public class Run {
                 System.out.println("Закончили удалять задачу по id");
             } else if (line.equals("7")) {
                 System.out.println("Начинаем удалять subTask по id");
+
                 taskManager.deleteIdSubTask(Integer.parseInt(sc.nextLine()));
                 taskManager.getAll();
                 System.out.println("Закончили удалять subTask по id");
@@ -97,7 +96,7 @@ public class Run {
                         System.out.println("2-No");
                         String numSub = sc.nextLine();
                         if (numSub.equals("1")) {
-                            subTask = taskManager.createSubTask(new SubTask(sc.nextLine()));
+                            subTask = taskManager.createSubTask(epic.getId(),new SubTask(sc.nextLine()));
                             epic.addSubtaskInEpic(subTask);
                             taskManager.getAll();
                         } else if (numSub.equals("2")) {
@@ -114,7 +113,8 @@ public class Run {
                 String num = sc.nextLine();
                 System.out.println("Введите новое наименование");
                 String name = sc.nextLine();
-                taskManager.updateSubTask(Integer.parseInt(num), new SubTask(name));
+                subTask = taskManager.updateSubTask(Integer.parseInt(num), new SubTask(name));
+//
                 System.out.println("Закончили обновлять subTask по id");
             } else if (line.equals("10")) {
                 System.out.println("Начинаем менять статус подзадачи");
