@@ -113,7 +113,6 @@ public class TaskManager {
     protected void deleteIdSubTask(int id) {
         SubTask subTask = subTasks.get(id);
         Epic epic = subTask.getEpic();
-        System.out.println("какого хуя тут сохраняет" + epic);
         epic.getSubTasks().remove(subTask);
         subTasks.remove(id);
         calculateStatus(epic.getId());
