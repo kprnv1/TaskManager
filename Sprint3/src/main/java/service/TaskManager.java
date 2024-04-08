@@ -61,6 +61,7 @@ public class TaskManager {
         subTask.setStatus(Status.NEW);
         subTasks.put(subTask.getId(), subTask);
         subTask.setEpic(epics.get(idEpic));
+        calculateStatus(idEpic);
         return subTask;
     }
 
@@ -84,8 +85,6 @@ public class TaskManager {
         subTask.setId(idSubTask);
         subTask.setStatus(Status.NEW);
         subTasks.put(idSubTask, subTask);
-//        addStatusInProgress(id);
-//        addStatusDone(id);
         return subTask;
     }
 
@@ -121,15 +120,12 @@ public class TaskManager {
         calculateStatus(epic.getId());
     }
 
-
     protected void calculateStatus(int id) {
         boolean getNew = false;
         boolean getDone = false;
         boolean getInProgress = false;
         if (epics.get(id).getSubTasks().size() == 0) {
             epics.get(id).setStatus(Status.NEW);
-
-
         } else if (epics.get(id).getSubTasks().size() > 0) {
             for (SubTask subTask : subTasks.values()) {
                 if (subTask.getStatus().equals(NEW)) {
