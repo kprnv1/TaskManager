@@ -130,30 +130,18 @@ public class TaskManager {
         boolean getNew = false;
         boolean getDone = false;
         boolean getInProgress = false;
-        if (epics.get(id).getSubTasks().size() == 0) {
-            epics.get(id).setStatus(Status.NEW);
-        } else if (epics.get(id).getSubTasks().size() > 0) {
-            for (SubTask subTask : subTasks.values()) {
-                if (subTask.getStatus().equals(NEW)) {
-                    getNew = true;
-                } else if (subTask.getStatus().equals(IN_PROGRESS)) {
-                    getInProgress = true;
-                } else if (subTask.getStatus().equals(DONE)) {
-                    getDone = true;
-                }
-                if (getNew && !getInProgress && !getDone) {
-                    epics.get(id).setStatus(NEW);
-                } else if (getNew && getDone) {
-                    epics.get(id).setStatus(IN_PROGRESS);
-                } else if (!getNew && !getInProgress && getDone) {
-                    epics.get(id).setStatus(DONE);
-                } else if (getInProgress && !getDone) {
-                    epics.get(id).setStatus(IN_PROGRESS);
-                } else
-                    epics.get(id).setStatus(IN_PROGRESS);
-            }
+        for (SubTask subTask : subTasks.values()) {
+            getNew = subTask.getStatus().equals(NEW) || getNew;
+            getInProgress = subTask.getStatus().equals(IN_PROGRESS) || getInProgress;
+            getDone = subTask.getStatus().equals(DONE) || getDone;
         }
+        if (getNew && !getInProgress && !getDone) {
+            epics.get(id).setStatus(NEW);
+        } else if (!getNew && !getInProgress && getDone) {
+            epics.get(id).setStatus(DONE);
+        } else epics.get(id).setStatus(IN_PROGRESS);
     }
+
 
     protected void addStatus(int numberSubTask, String Status) {
         if (Status.equals("IN_PROGRESS")) {
