@@ -2,8 +2,6 @@ package model;
 
 import service.Status;
 
-import java.util.ArrayList;
-
 public class SubTask extends Task {
 
     private Epic epic;

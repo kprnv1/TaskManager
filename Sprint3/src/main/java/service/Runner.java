@@ -61,28 +61,30 @@ public class Runner {
         System.out.println(taskManager.getId(4));
         System.out.println("Закончили получать задачи по id\n");
 
-
-
         System.out.println("8: Обновляем подзадачу");
         SubTask subTask4 = new SubTask("Лучше купить паркет");
         taskManager.updateSubTask(5,subTask4);
         epic1.addSubtaskInEpic(subTask4);
-        System.out.println("Закончили обновлять подзадачу");
-        taskManager.getAll();
+        System.out.println(taskManager.getSubtask());
+        System.out.println("Закончили обновлять подзадачу\n");
 
         System.out.println("9: Удаляем по id");
         taskManager.deleteId(1);
-        taskManager.getAll();
-        System.out.println("Закончили удалять по id");
+        System.out.println(taskManager.getTask());
+        System.out.println("Закончили удалять по id\n");
 
         System.out.println("10: Устанавливаем статус");
         taskManager.addStatus(5,"DONE");
-        taskManager.getAll();
-        System.out.println("Установили статус");
+        System.out.println(taskManager.getSubtask());
+        System.out.println(taskManager.getEpic());
+        System.out.println("Установили статус\n");
 
-
-        System.out.println("И удаляем все задачи и подзадачи");
+        System.out.println("11: И удаляем все задачи и подзадачи");
         taskManager.deleteAll();
-        taskManager.getAll();
+        System.out.println(taskManager.getTask());
+        System.out.println(taskManager.getEpic());
+        System.out.println(taskManager.getSubtask());
+        System.out.println("Все задачи и подзадачи удалены");
+
     }
 }

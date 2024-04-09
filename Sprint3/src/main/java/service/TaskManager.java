@@ -13,6 +13,18 @@ public class TaskManager {
     protected HashMap<Integer, Epic> epics;
     protected HashMap<Integer, SubTask> subTasks;
 
+    protected HashMap<Integer, Task> getTask() {
+        return tasks;
+    }
+
+    protected HashMap<Integer, Epic> getEpic() {
+        return epics;
+    }
+
+    protected HashMap<Integer, SubTask> getSubtask() {
+        return subTasks;
+    }
+
     private int seq = 0;
 
     protected TaskManager() {
@@ -23,12 +35,6 @@ public class TaskManager {
 
     private int generateId() {
         return ++seq;
-    }
-
-    protected void getAll() {
-        System.out.println(tasks);
-        System.out.println(epics);
-        System.out.println(subTasks);
     }
 
     protected Object getId(int id) {
@@ -135,9 +141,11 @@ public class TaskManager {
                 } else if (subTask.getStatus().equals(DONE)) {
                     getDone = true;
                 }
-                if (getNew && getDone) {
+                if (getNew && !getInProgress && !getDone) {
+                    epics.get(id).setStatus(NEW);
+                } else if (getNew && getDone) {
                     epics.get(id).setStatus(IN_PROGRESS);
-                } else if (!getInProgress && getDone) {
+                } else if (!getNew && !getInProgress && getDone) {
                     epics.get(id).setStatus(DONE);
                 } else if (getInProgress && !getDone) {
                     epics.get(id).setStatus(IN_PROGRESS);
