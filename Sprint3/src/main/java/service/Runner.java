@@ -75,7 +75,7 @@ public class Runner {
 
         System.out.println("10: Устанавливаем статус");
         taskManager.addStatus(4,"DONE");
-        taskManager.addStatus(5,"DONE");
+        taskManager.addStatus(5,"NEW");
         System.out.println(taskManager.getSubtask());
         System.out.println(taskManager.getEpic());
         System.out.println("Установили статус\n");
