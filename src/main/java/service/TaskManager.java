@@ -5,22 +5,21 @@ import model.SubTask;
 import model.Task;
 
 public interface TaskManager {
-
-    TaskManager();
+    int generateId();
 
     Object getId(int id);
 
-    Task create(Task task);
+    void create(Task task);
 
-    Epic createEpic(Epic epic);
+    void createEpic(Epic epic);
 
-    SubTask createSubTask(int idEpic, SubTask subTask);
+    void createSubTask(int idEpic, SubTask subTask);
 
-    Task update(int id, Task task);
+    void update(int id, Task task);
 
-    Epic updateEpic(int id, Epic epic);
+    void updateEpic(int id, Epic epic);
 
-    SubTask updateSubTask(int idSubTask, SubTask subTask);
+    void updateSubTask(int idSubTask, SubTask subTask);
 
     void deleteAll();
 
@@ -37,5 +36,4 @@ public interface TaskManager {
     void addStatusInProgress(int id);
 
     void addStatusDone(int id);
-
 }
