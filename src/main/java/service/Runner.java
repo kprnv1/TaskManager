@@ -5,7 +5,7 @@ import model.SubTask;
 import model.Task;
 
 public class Runner {
-    protected TaskManager taskManager = new TaskManager();
+    protected InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
     public void start() {
         System.out.println("1: Создаем простую задачу");
