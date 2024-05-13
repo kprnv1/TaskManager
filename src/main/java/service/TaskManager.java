@@ -14,7 +14,7 @@ public interface TaskManager {
 
     HashMap<Integer, SubTask> getSubtask();
 
-    int generateId();
+    //int generateId();
 
     Object getId(int id);
 

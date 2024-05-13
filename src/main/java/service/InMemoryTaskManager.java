@@ -29,15 +29,17 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasks;
     }
 
+    HistoryManager historyManager;//13.05
     private int seq = 0;
 
-    public InMemoryTaskManager() {
+    public InMemoryTaskManager(HistoryManager historyManager){ //defaultHistory) {//13.05
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subTasks = new HashMap<>();
+        this.historyManager = historyManager;////13.05
     }
 
-    @Override
+   // @Override  //13.05
     public int generateId() {
         return ++seq;
     }
