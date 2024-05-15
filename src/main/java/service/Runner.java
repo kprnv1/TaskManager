@@ -4,8 +4,10 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 
+import static service.Managers.getDefaultHistory;
+
 public class Runner {
-    protected InMemoryTaskManager taskManager = new InMemoryTaskManager();
+    protected InMemoryTaskManager taskManager = new InMemoryTaskManager(getDefaultHistory());
 
     public void start() {
         System.out.println("1: Создаем простую задачу");
