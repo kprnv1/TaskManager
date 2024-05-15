@@ -32,26 +32,53 @@ public class InMemoryTaskManager implements TaskManager {
     HistoryManager historyManager;//13.05
     private int seq = 0;
 
-    public InMemoryTaskManager(HistoryManager historyManager){ //defaultHistory) {//13.05
+    public InMemoryTaskManager(HistoryManager historyManager) { //defaultHistory) {//13.05
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subTasks = new HashMap<>();
         this.historyManager = historyManager;////13.05
     }
 
-   // @Override  //13.05
+    // @Override  //13.05
     public int generateId() {
         return ++seq;
+    }
+
+    public Task getIdTask(int id) {
+        Task task = getTask().get(id);
+        if (task == null) {
+            return null;
+        }
+        historyManager.add(task);
+        return task;
+    }
+
+    public Task getIdEpic(int id) {
+        Epic epic = getEpic().get(id);
+        if (epic == null) {
+            return null;
+        }
+        historyManager.add(epic);
+        return epic;
+    }
+
+    public SubTask getIdSubTask(int id) {
+        SubTask subTask = getSubtask().get(id);
+        if (subTask == null) {
+            return null;
+        }
+        historyManager.add(subTask);
+        return subTask;
     }
 
     @Override
     public Object getId(int id) {
         if (tasks.containsKey(id)) {
-            return tasks.get(id);
+            return getIdTask(id);
         } else if (epics.containsKey(id)) {
-            return epics.get(id);
+            return getIdEpic(id);
         } else if (subTasks.containsKey(id)) {
-            return subTasks.get(id);
+            return getIdSubTask(id);
         } else System.out.println("Такой задачи нет");
         return id;
     }
