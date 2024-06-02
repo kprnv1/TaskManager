@@ -15,32 +15,31 @@ public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, SubTask> subTasks;
 
     @Override
-    public HashMap<Integer, Task> getTask() {
+    public Map<Integer, Task> getTask() {
         return tasks;
     }
 
     @Override
-    public HashMap<Integer, Epic> getEpic() {
+    public Map<Integer, Epic> getEpic() {
         return epics;
     }
 
     @Override
-    public HashMap<Integer, SubTask> getSubtask() {
+    public Map<Integer, SubTask> getSubtask() {
         return subTasks;
     }
 
-    HistoryManager historyManager;//13.05
+    HistoryManager historyManager;
     private int seq = 0;
 
-    public InMemoryTaskManager(HistoryManager historyManager) { //defaultHistory) {//13.05
+    public InMemoryTaskManager(HistoryManager historyManager) {
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subTasks = new HashMap<>();
-        this.historyManager = historyManager;////13.05
+        this.historyManager = historyManager;
     }
 
-    // @Override  //13.05
-    public int generateId() {
+        public int generateId() {
         return ++seq;
     }
 
@@ -49,7 +48,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (task == null) {
             return null;
         }
-        historyManager.add(task);
+        historyManager.addInHistory(task);
         return task;
     }
 
@@ -58,7 +57,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return null;
         }
-        historyManager.add(epic);
+        historyManager.addInHistory(epic);
         return epic;
     }
 
@@ -67,7 +66,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subTask == null) {
             return null;
         }
-        historyManager.add(subTask);
+        historyManager.addInHistory(subTask);
         return subTask;
     }
 
@@ -79,12 +78,13 @@ public class InMemoryTaskManager implements TaskManager {
             return getIdEpic(id);
         } else if (subTasks.containsKey(id)) {
             return getIdSubTask(id);
-        } else System.out.println("Такой задачи нет");
+        } else { System.out.println("Такой задачи нет");
         return id;
+        }
     }
 
     @Override
-    public void create(Task task) {
+    public void createTask(Task task) {
         task.setId(generateId());
         task.setStatus(NEW);
         tasks.put(task.getId(), task);
@@ -107,7 +107,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void update(int id, Task task) {
+    public void updateTask(int id, Task task) {
         task.setId(id);
         task.setStatus(NEW);
         tasks.put(id, task);
@@ -153,7 +153,7 @@ public class InMemoryTaskManager implements TaskManager {
             deleteEpicById(id);
         } else if (subTasks.containsKey(id)) {
             deleteIdSubTask(id);
-        } else System.out.println("Такой задачи нет");
+        } else {System.out.println("Такой задачи нет");}
     }
 
     @Override
@@ -207,4 +207,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
+    @Override
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
+    }
 }
