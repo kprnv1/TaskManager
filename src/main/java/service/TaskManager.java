@@ -4,27 +4,26 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface TaskManager {
 
-    HashMap<Integer, Task> getTask();
+    Map<Integer, Task> getTask();
 
-    HashMap<Integer, Epic> getEpic();
+    Map<Integer, Epic> getEpic();
 
-    HashMap<Integer, SubTask> getSubtask();
-
-    //int generateId();
+    Map<Integer, SubTask> getSubtask();
 
     Object getId(int id);
 
-    void create(Task task);
+    void createTask(Task task);
 
     void createEpic(Epic epic);
 
     void createSubTask(int idEpic, SubTask subTask);
 
-    void update(int id, Task task);
+    void updateTask(int id, Task task);
 
     void updateEpic(int id, Epic epic);
 
@@ -46,4 +45,5 @@ public interface TaskManager {
 
     void addStatusDone(int id);
 
+    List<Task> getHistory();
 }
