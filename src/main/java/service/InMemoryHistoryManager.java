@@ -7,8 +7,8 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    List<Task> history = new LinkedList<>();
-    final int COUNT_ELEMENTS_LIST_HISTORY = 9;
+    private List<Task> history = new LinkedList<>();
+    private final int COUNT_ELEMENTS_LIST_HISTORY = 9;
 
     @Override
     public void addInHistory(Task task) {
