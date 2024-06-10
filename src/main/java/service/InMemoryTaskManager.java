@@ -10,9 +10,9 @@ import static service.Status.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    protected HashMap<Integer, Task> tasks;
-    protected HashMap<Integer, Epic> epics;
-    protected HashMap<Integer, SubTask> subTasks;
+    protected Map<Integer, Task> tasks;
+    protected Map<Integer, Epic> epics;
+    protected Map<Integer, SubTask> subTasks;
 
     @Override
     public Map<Integer, Task> getTask() {
